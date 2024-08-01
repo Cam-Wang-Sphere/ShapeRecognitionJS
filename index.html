@@ -10,11 +10,12 @@
     <section class="container">
         <div id="toolbar">
             <h1>Draw.</h1>
-            <label for="stroke">Stroke</label>
-            <input id="stroke" name='stroke' type="color">
-            <label for="lineWidth">Line Width</label>
-            <input id="lineWidth" name='lineWidth' type="number" value="5">
+            <span id="Shape"> Shape: </span>
+            <span id="Score"> Score: </span>
+            <span id="Time"> Time: </span>
             <button id="clear">Clear</button>
+            <input type="text" id="TemplateName" />
+            <button id = "AddTemplate">Add Template</button>
         </div>
         <div class="drawing-board">
             <canvas id="drawing-board"></canvas>

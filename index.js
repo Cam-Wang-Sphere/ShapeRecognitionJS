@@ -375,6 +375,11 @@ toolbar.addEventListener('click', e => {
     if (e.target.id === 'clear') {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
+
+    if (e.target.id === 'AddTemplate')
+    {
+        AddTemplate();
+    }
 });
 
 toolbar.addEventListener('change', e => {
@@ -417,7 +422,6 @@ const draw = (e) => {
     ctx.lineCap = 'round';
 
     ctx.lineTo(e.clientX - canvasOffsetX, e.clientY);
-    console.log('Mouse Pos: %f,%f',e.clientX,e.clientY);
     ctx.stroke();
 }
 
@@ -443,6 +447,10 @@ canvas.addEventListener('mouseup', e => {
     let pointArray = new Array();
     if(storageAvailable("localStorage"))
     {
+        if(!localStorage.getItem(UserInputKey))
+        {
+            return;
+        }
         let existingInputString = localStorage.getItem(UserInputKey);
 
         let existingInputObj = JSON.parse(existingInputString);
@@ -453,13 +461,15 @@ canvas.addEventListener('mouseup', e => {
             let Y = existingInputObj['Input'][i]['y'];
 
             let newPoint = new Point(X,Y);
-            console.log("New Point at X: %f, Y: %f", X, Y);
             pointArray.push(newPoint);
         }
     }
 
     let DrawResult = Recognizer.Recognize(pointArray, true);
     console.log("Draw Result name: %s, score: %f, time: %f", DrawResult.Name, DrawResult.Score, DrawResult.Time);
+    document.getElementById("Shape").textContent = "Shape: " + DrawResult.Name;
+    document.getElementById("Score").textContent = "Score: " + DrawResult.Score;
+    document.getElementById("Time").textContent = "Time: " + DrawResult.Time;
 });
 
 canvas.addEventListener('mousemove', draw);
@@ -503,4 +513,10 @@ function storageAvailable(type) {
     let newInputString = JSON.stringify(existingInputObj);
 
     localStorage.setItem(UserInputKey, newInputString);
+  }
+
+  function AddTemplate()
+  {
+    let TempName = document.getElementById('TemplateName').value;
+    console.log("Current template name: %s", TempName);
   }
