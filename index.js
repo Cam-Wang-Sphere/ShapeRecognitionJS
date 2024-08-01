@@ -69,6 +69,37 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
+
+//
+//	ConnectToServer functionality
+//
+function connectToServer() {
+	let ip = document.getElementById("ipAddress").value;
+	if (ip.trim() === "") {
+		alert("Empty IP address");
+		return;
+	}
+
+	var socket = new WebSocket("wss://" + ip + ":3004");
+
+	window.sessionId = -1;
+
+	socket.onopen = function () {
+		alert("Connected to websocket with ip = " + ip);
+	};
+
+	socket.onerror = function () {
+		alert("Could not connect to ip = " + ip);
+	};
+
+	socket.onmessage = function (event) {
+		console.log("Received message = ", event.data);
+	};
+
+	window.currentSocket = socket;
+}
+
+
 //
 // Point class
 //
